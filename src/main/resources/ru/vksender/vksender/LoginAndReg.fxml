@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="784.0" stylesheets="@designLogin.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.vksender.vksender.LoginAndRegController">
+    <children>
+        <AnchorPane fx:id="signin_form" layoutX="-113.0" layoutY="90.0" prefHeight="497.0" prefWidth="784.0" styleClass="bg-form" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="signin_close" layoutX="711.0" layoutY="1.0" mnemonicParsing="false" onAction="#signInClose" prefHeight="24.0" prefWidth="71.0" styleClass="close" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="1.2em" />
+                    </graphic>
+                </Button>
+                <Button fx:id="signin_minimize" layoutX="640.0" layoutY="1.0" mnemonicParsing="false" onAction="#signInMinimize" prefHeight="24.0" prefWidth="71.0" styleClass="minimize" AnchorPane.topAnchor="2.0">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="MINUS" size="1.2em" />
+                    </graphic>
+                </Button>
+                <Label layoutX="342.0" layoutY="161.0" text="ВОЙТИ" textFill="WHITE">
+                    <font>
+                        <Font name="JetBrains Mono NL ExtraBold" size="30.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="signin_username" layoutX="270.0" layoutY="233.0" prefHeight="40.0" prefWidth="234.0" promptText="Логин" styleClass="textfield" />
+                <PasswordField fx:id="signin_password" layoutX="270.0" layoutY="292.0" prefHeight="40.0" prefWidth="234.0" promptText="Пароль" styleClass="textfield" />
+                <Button fx:id="signin_loginBtn" layoutX="332.0" layoutY="354.0" mnemonicParsing="false" onAction="#signin" prefHeight="52.0" prefWidth="110.0" styleClass="login-btn" text="Войти">
+                    <font>
+                        <Font name="JetBrains Mono NL ExtraBold" size="14.0" />
+                    </font>
+                </Button>
+                <Hyperlink fx:id="signin_createAccount" layoutX="374.0" layoutY="454.0" onAction="#switchForm" text="Зарегестрироваться">
+                    <font>
+                        <Font name="JetBrains Mono NL ExtraBold" size="14.0" />
+                    </font>
+                </Hyperlink>
+                <Label layoutX="261.0" layoutY="456.0" text="Нет аккаунта?" textFill="WHITE">
+                    <font>
+                        <Font name="JetBrains Mono NL ExtraBold" size="14.0" />
+                    </font>
+                </Label>
+                <FontAwesomeIconView fill="#cc2448" glyphName="USER" layoutX="345.0" layoutY="143.0" selectionStart="1" size="9em" />
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="signup_form" prefHeight="497.0" prefWidth="784.0" styleClass="bg-form" visible="false">
+            <children>
+                <Button fx:id="signup_close" layoutX="711.0" layoutY="1.0" mnemonicParsing="false" onAction="#signUpClose" prefHeight="24.0" prefWidth="71.0" styleClass="close" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="1.2em" />
+                    </graphic>
+                </Button>
+                <Button fx:id="signup_minimize" layoutX="640.0" layoutY="1.0" mnemonicParsing="false" onAction="#signUpMinimize" prefHeight="24.0" prefWidth="71.0" styleClass="minimize" AnchorPane.topAnchor="2.0">
+                    <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="MINUS" size="1.2em" />
+                    </graphic>
+                </Button>
+                <Label layoutX="285.0" layoutY="138.0" text="РЕГИСТРАЦИЯ" textFill="WHITE">
+                    <font>
+                        <Font name="JetBrains Mono NL ExtraBold" size="30.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="signup_email" layoutX="268.0" layoutY="184.0" prefHeight="40.0" prefWidth="234.0" promptText="Email" styleClass="textfield" />
+                <TextField fx:id="signup_username" layoutX="269.0" layoutY="239.0" prefHeight="40.0" prefWidth="234.0" promptText="Логин" styleClass="textfield" />
+                <PasswordField fx:id="signup_password" layoutX="269.0" layoutY="298.0" prefHeight="40.0" prefWidth="234.0" promptText="Пароль" styleClass="textfield" />
+                <Button fx:id="signup_btn" layoutX="299.0" layoutY="367.0" mnemonicParsing="false" onAction="#signup" prefHeight="52.0" prefWidth="171.0" styleClass="signup-btn" text="Зарегистрироваться">
+                    <font>
+                        <Font name="JetBrains Mono NL ExtraBold" size="14.0" />
+                    </font>
+                </Button>
+                <Hyperlink fx:id="signup_alrdyHaveAcc" layoutX="317.0" layoutY="451.0" onAction="#switchForm" text="Уже есть аккаунт?">
+                    <font>
+                        <Font name="JetBrains Mono NL ExtraBold" size="14.0" />
+                    </font>
+                </Hyperlink>
+                <FontAwesomeIconView fill="#cc245f" glyphName="USER_PLUS" layoutX="325.0" layoutY="115.0" size="9em" />
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" stylesheets="@designDeshboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.vksender.vksender.DashboardController">
+    <children>
+        <BorderPane prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+                <AnchorPane prefHeight="46.0" prefWidth="1100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <AnchorPane fx:id="topForm" layoutX="273.0" layoutY="-68.0" prefHeight="43.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <Button layoutX="1029.0" layoutY="7.0" mnemonicParsing="false" onAction="#closeBtn" prefHeight="24.0" prefWidth="71.0" styleClass="close" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="CLOSE" size="1.2em" />
+                                    </graphic>
+                                </Button>
+                                <Button layoutX="956.0" layoutY="2.0" mnemonicParsing="false" onAction="#minimizeBtn" prefHeight="24.0" prefWidth="71.0" styleClass="minimize" AnchorPane.topAnchor="2.0">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="MINUS" size="1.2em" />
+                                    </graphic>
+                                </Button>
+                                <Label layoutX="14.0" layoutY="14.0" text="VK Sander" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </top>
+            <left>
+                <AnchorPane prefHeight="439.0" prefWidth="200.0" styleClass="nav-form" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="65.0" layoutY="123.0" prefHeight="27.0" prefWidth="74.0" text="Привет" textFill="WHITE">
+                            <font>
+                                <Font name="Noto Sans Ethiopic Medium" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="username" alignment="CENTER" layoutX="9.0" layoutY="157.0" prefHeight="34.0" prefWidth="184.0" text="Admin" textFill="WHITE">
+                            <font>
+                                <Font name="JetBrains Mono Medium" size="25.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="60.0" layoutY="514.0" text="Выйти" textFill="WHITE">
+                            <font>
+                                <Font name="JetBrains Mono Medium" size="17.0" />
+                            </font>
+                        </Label>
+                        <FontAwesomeIconView glyphName="USER" layoutX="58.0" layoutY="105.0" size="9em" tabSize="12" />
+                        <Button fx:id="logout" layoutX="9.0" layoutY="505.0" mnemonicParsing="false" onAction="#OnLogout" prefHeight="37.0" prefWidth="9.0" styleClass="signout">
+                            <graphic>
+                                <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" size="2em" />
+                            </graphic>
+                        </Button>
+                        <Button fx:id="addAccountMenu" layoutX="10.0" layoutY="201.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="49.0" prefWidth="180.0" styleClass="nav-btn" text="Добавить аккаунт">
+                            <graphic>
+                                <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="1.9em" />
+                            </graphic>
+                        </Button>
+                        <Button fx:id="rassilkaMenu" layoutX="8.0" layoutY="274.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="49.0" prefWidth="180.0" styleClass="nav-btn" text="Рассылка">
+                            <graphic>
+                                <FontAwesomeIconView fill="WHITE" glyphName="SEND" size="1.6em" />
+                            </graphic>
+                        </Button>
+                        <Button fx:id="addAccountMenu1" layoutX="9.0" layoutY="350.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="49.0" prefWidth="180.0" styleClass="nav-btn" text="Инструкция">
+                            <graphic>
+                                <FontAwesomeIconView fill="WHITE" glyphName="ANCHOR" size="1.9em" />
+                            </graphic>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </left>
+            <center>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <AnchorPane fx:id="addAccForm" layoutX="223.0" layoutY="51.0" prefHeight="554.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <AnchorPane layoutX="14.0" layoutY="1.0" prefHeight="542.0" prefWidth="326.0" styleClass="bg-white" AnchorPane.topAnchor="1.0">
+                                    <children>
+                                        <AnchorPane layoutX="111.0" layoutY="30.0" prefHeight="92.0" prefWidth="95.0" styleClass="bg-white" stylesheets="@designLogin.css">
+                                            <children>
+                                                <ImageView fx:id="addAccount_imageView" fitHeight="92.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true" />
+                                            </children>
+                                        </AnchorPane>
+                                        <Button fx:id="addAccount_import" layoutX="118.0" layoutY="133.0" mnemonicParsing="false" onAction="#importImage" prefHeight="30.0" prefWidth="83.0" styleClass="add-acc-btn-import" text="Импорт" />
+                                        <Label layoutX="18.0" layoutY="262.0" text="Название аккаунт" />
+                                        <TextField fx:id="addAccount_accName" layoutX="18.0" layoutY="280.0" styleClass="add-textfiled" />
+                                        <Label layoutX="18.0" layoutY="324.0" text="Описание аккаунта:" />
+                                        <TextField fx:id="addAccount_token" layoutX="18.0" layoutY="217.0" prefHeight="28.0" prefWidth="283.0" styleClass="add-textfiled" />
+                                        <Label layoutX="18.0" layoutY="199.0" text="Токен" />
+                                        <TextField fx:id="addAccount_description" alignment="TOP_LEFT" layoutX="18.0" layoutY="342.0" prefHeight="94.0" prefWidth="287.0" styleClass="add-textfiled" />
+                                        <Button fx:id="addAccount_addBtn" layoutX="8.0" layoutY="455.0" mnemonicParsing="false" onAction="#insertAddAccounts" prefHeight="43.0" prefWidth="92.0" styleClass="add-acc-btn" text="Добавить">
+                                            <font>
+                                                <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
+                                            </font>
+                                        </Button>
+                                        <Button fx:id="addAccount_delete" layoutX="119.0" layoutY="455.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="92.0" styleClass="add-acc-btn" text="Удалить">
+                                            <font>
+                                                <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
+                                            </font>
+                                        </Button>
+                                        <Button fx:id="addAccount_update" layoutX="227.0" layoutY="455.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="92.0" styleClass="add-acc-btn" text="Обнавить">
+                                            <font>
+                                                <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
+                                            </font>
+                                        </Button>
+                                        <Button fx:id="clearAccs" layoutX="285.0" layoutY="506.0" mnemonicParsing="false" onAction="#clearAccs" prefHeight="24.0" prefWidth="24.0" styleClass="cls-btn">
+                                            <font>
+                                                <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
+                                            </font>
+                                            <graphic>
+                                                <FontAwesomeIconView glyphName="CLOSE" size="20" />
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane layoutX="352.0" prefHeight="542.0" prefWidth="537.0" styleClass="bg-white" AnchorPane.topAnchor="0.0">
+                                    <children>
+                                        <TableView fx:id="addAccount_tableView" layoutX="5.0" layoutY="65.0" onMouseClicked="#selectAddMoviesList" prefHeight="460.0" prefWidth="527.0">
+                                            <columns>
+                                                <TableColumn fx:id="addAccount_col_accNum" prefWidth="59.0" text="Номер" />
+                                                <TableColumn fx:id="addAccount_col_accName" prefWidth="86.0" text="Название" />
+                                                <TableColumn fx:id="addAccount_col_accDesc" prefWidth="131.0" text="Описание" />
+                                                <TableColumn fx:id="addAccount_col_accToken" prefWidth="86.0" text="Токен" />
+                                                <TableColumn fx:id="addAccount_col_accFirstName" prefWidth="71.0" text="Имя" />
+                                                <TableColumn fx:id="addAccount_col_accLastName" prefWidth="92.0" text="Фамилия" />
+                                            </columns>
+                                        </TableView>
+                                        <TextField fx:id="addAccount_search" layoutX="14.0" layoutY="14.0" promptText="Поиск" styleClass="add-textfiled" />
+                                        <FontAwesomeIconView glyphName="SEARCH" layoutX="151.0" layoutY="34.0" selectionStart="1" size="1.4em" />
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="rassilkaForm" prefHeight="579.0" prefWidth="910.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <ChoiceBox fx:id="accountChoiseList" layoutX="14.0" layoutY="38.0" prefHeight="21.0" prefWidth="172.0" styleClass="add-textfiled" />
+                                <TextArea fx:id="messageTextField" layoutX="316.0" layoutY="35.0" prefHeight="231.0" prefWidth="565.0" />
+                                <ChoiceBox fx:id="chatsList" layoutX="14.0" layoutY="174.0" prefHeight="21.0" prefWidth="172.0" styleClass="add-textfiled" />
+                                <Text layoutX="14.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Чаты" />
+                                <Text layoutX="16.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Аккаунты" />
+                                <Button fx:id="sendButton" layoutX="316.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleSendMessage" prefHeight="42.0" prefWidth="114.0" styleClass="add-acc-btn-import" text="Отправить" />
+                                <Button fx:id="stopSend" layoutX="767.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleStopSend" prefHeight="42.0" prefWidth="114.0" styleClass="cls-btn" text="Остановить" />
+                                <Button layoutX="189.0" layoutY="174.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="33.0" styleClass="update-btn">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="REFRESH" size="20" styleClass="close" />
+                                    </graphic>
+                                </Button>
+                                <Text layoutX="316.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Сообщение" />
+                                <Button fx:id="importFileForMsg" layoutX="430.0" layoutY="277.0" mnemonicParsing="false" onAction="#importImage" prefHeight="30.0" prefWidth="18.0" styleClass="update-btn">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="PAPERCLIP" selectionFill="#d7c1c1" size="2em" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="instuctForm" layoutX="10.0" layoutY="10.0" prefHeight="554.0" prefWidth="900.0" visible="false">
+                            <children>
+                                <Text layoutX="103.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ИНСТРУКЦИЯ" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
