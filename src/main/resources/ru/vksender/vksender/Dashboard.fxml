@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" stylesheets="@designDeshboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.vksender.vksender.DashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" stylesheets="@designDeshboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.vksender.vksender.DashboardController">
     <children>
         <BorderPane prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
@@ -99,22 +99,17 @@
                                         <TextField fx:id="addAccount_token" layoutX="18.0" layoutY="217.0" prefHeight="28.0" prefWidth="283.0" styleClass="add-textfiled" />
                                         <Label layoutX="18.0" layoutY="199.0" text="Токен" />
                                         <TextField fx:id="addAccount_description" alignment="TOP_LEFT" layoutX="18.0" layoutY="342.0" prefHeight="94.0" prefWidth="287.0" styleClass="add-textfiled" />
-                                        <Button fx:id="addAccount_addBtn" layoutX="8.0" layoutY="455.0" mnemonicParsing="false" onAction="#insertAddAccounts" prefHeight="43.0" prefWidth="92.0" styleClass="add-acc-btn" text="Добавить">
+                                        <Button fx:id="addAccount_addBtn" layoutX="18.0" layoutY="455.0" mnemonicParsing="false" onAction="#insertAddAccounts" prefHeight="48.0" prefWidth="105.0" styleClass="add-acc-btn" text="Добавить">
                                             <font>
                                                 <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
                                             </font>
                                         </Button>
-                                        <Button fx:id="addAccount_delete" layoutX="119.0" layoutY="455.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="92.0" styleClass="add-acc-btn" text="Удалить">
+                                        <Button fx:id="addAccount_delete" layoutX="156.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleDeleteAccount" prefHeight="48.0" prefWidth="105.0" styleClass="add-acc-btn" text="Удалить">
                                             <font>
                                                 <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
                                             </font>
                                         </Button>
-                                        <Button fx:id="addAccount_update" layoutX="227.0" layoutY="455.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="92.0" styleClass="add-acc-btn" text="Обнавить">
-                                            <font>
-                                                <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
-                                            </font>
-                                        </Button>
-                                        <Button fx:id="clearAccs" layoutX="285.0" layoutY="506.0" mnemonicParsing="false" onAction="#clearAccs" prefHeight="24.0" prefWidth="24.0" styleClass="cls-btn">
+                                        <Button fx:id="clearAccs" layoutX="280.0" layoutY="499.0" mnemonicParsing="false" onAction="#clearAccs" prefHeight="24.0" prefWidth="24.0" styleClass="cls-btn">
                                             <font>
                                                 <Font name="JetBrains Mono NL ExtraBold" size="18.0" />
                                             </font>

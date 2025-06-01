@@ -32,6 +32,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -39,16 +40,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -182,7 +175,27 @@ public class DashboardController {
     }
 
 
+    private Map<String, String> getUserInfoFromVk(String token) {
+        Map<String, String> userInfo = new HashMap<>();
+        try {
+            TransportClient transportClient = new HttpTransportClient();
+            VkApiClient vk = new VkApiClient(transportClient);
+            UserActor actor = new UserActor(0, token);
+
+            List<GetResponse> users = vk.users().get(actor).execute();
+            if (!users.isEmpty()) {
+                GetResponse user = users.get(0);
+                userInfo.put("firstName", user.getFirstName());
+                userInfo.put("lastName", user.getLastName());
+            }
+        } catch (ApiException | ClientException e) {
+            System.err.println("Ошибка при получении данных из VK: " + e.getMessage());
+        }
+        return userInfo;
+    }
+
     public void insertAddAccounts() {
+
 
         String sql1 = "SELECT accountName FROM vkaccounts WHERE accountName = ?";
         connect = Database.connectDb();
@@ -203,14 +216,30 @@ public class DashboardController {
                 } else if (addAccount_imageView.getImage() == null) {
                     showAlert("err", "Пожалуйста импортируйте изображние!");
                 } else {
-                    String sql = "INSERT INTO vkaccounts (token, accountname, description, image, first_name, last_name) VALUES (?,?,?,?,?,?)";
+
+                    String token = getToken(addAccount_token.getText());
+                    if (token == null || token.isEmpty()) {
+                        showAlert("err", "Неверный формат токена!");
+                        return;
+                    }
+
+                    Map<String, String> userInfo = getUserInfoFromVk(token);
+                    String firstName = userInfo.getOrDefault("firstName", null);
+                    String lastName = userInfo.getOrDefault("lastName", null);
+
+                    // Если не удалось получить данные из VK
+                    if (firstName == null || lastName == null) {
+                        showAlert("warn", "Не удалось получить данные пользователя из VK. Поля имени и фамилии будут пустыми.");
+                    }
+
+                    String sql = "INSERT INTO vkaccounts (token, accountname, description, image, first_name, last_name, admin_username) VALUES (?,?,?,?,?,?,?)";
                     String uri = getData.path;
                     uri = uri.replace("\\", "\\\\");
 
 //					addAccount();
 
                     prepare = connect.prepareStatement(sql);
-                    prepare.setString(1, getToken(addAccount_token.getText()));
+                    prepare.setString(1, token);
                     prepare.setString(2, addAccount_accName.getText());
                     prepare.setString(3, addAccount_description.getText());
                     prepare.setString(4, uri);
@@ -222,6 +251,8 @@ public class DashboardController {
                         prepare.setString(5, firstName);
                         prepare.setString(6, lastName);
                     }
+
+                    prepare.setString(7, getData.username);
 
                     prepare.execute();
 
@@ -238,24 +269,84 @@ public class DashboardController {
         }
     }
 
+    @FXML
+    private void handleDeleteAccount() {
+        vkAccountsData selectedAccount = addAccount_tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedAccount == null) {
+            showAlert("err", "Выберите аккаунт для удаления!");
+            return;
+        }
+
+        if (!selectedAccount.getAdminUsername().equals(getData.username)) {
+            showAlert("err", "Вы можете удалять только свои аккаунты!");
+            return;
+        }
+
+        Alert confirmation = new Alert(AlertType.CONFIRMATION);
+        confirmation.setTitle("Подтверждение удаления");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Вы уверены, что хотите удалить аккаунт " + selectedAccount.getAccountName() + "?");
+
+        if (confirmation.showAndWait().get() == ButtonType.OK) {
+            try {
+                connect = Database.connectDb();
+                String sql = "DELETE FROM vkaccounts WHERE id = ? AND admin_username = ?";
+                prepare = connect.prepareStatement(sql);
+                prepare.setInt(1, selectedAccount.getId());
+                prepare.setString(2, getData.username);
+
+                int affectedRows = prepare.executeUpdate();
+
+                if (affectedRows > 0) {
+                    showAlert("info", "Аккаунт успешно удален!");
+                    showAddAccounts(); // Обновляем таблицу
+
+                    ObservableList<String> namesList = FXCollections.observableArrayList(getAccountsName());
+                    accountChoiseList.setItems(namesList);
+                } else {
+                    showAlert("err", "Не удалось удалить аккаунт");
+                }
+            } catch (Exception e) {
+                showAlert("err", "Ошибка при удалении: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     private String firstName;
     private String lastName;
 
     public ObservableList<vkAccountsData> addAccountsList() {
         ObservableList<vkAccountsData> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM vkAccounts";
+
+        // Только если пользователь авторизован
+        if (getData.username == null || getData.username.isEmpty()) {
+            return listData;
+        }
+
+        String sql = "SELECT * FROM vkaccounts WHERE admin_username = ?";
         connect = Database.connectDb();
 
         try {
             prepare = connect.prepareStatement(sql);
+            prepare.setString(1, getData.username); // Фильтруем по текущему пользователю
             result = prepare.executeQuery();
 
             vkAccountsData accD;
 
             while (result.next()) {
-                accD = new vkAccountsData(result.getInt("id"), result.getString("token"),
-                    result.getString("accountName"), result.getString("description"), result.getString("image"),
-                    result.getString("first_name"), result.getString("last_name"));
+                accD = new vkAccountsData(
+                    result.getInt("id"),
+                    result.getString("token"),
+                    result.getString("accountName"),
+                    result.getString("description"),
+                    result.getString("image"),
+                    result.getString("first_name"),
+                    result.getString("last_name"),
+                    result.getString("admin_username")
+                );
                 listData.add(accD);
             }
         } catch (Exception e) {
@@ -369,25 +460,24 @@ public class DashboardController {
 
     public List<String> getAccountsName() {
         List<String> accName = new ArrayList<>();
-        Connection connect = null;
-        PreparedStatement prepare = null;
-        ResultSet result = null;
+
+        if (getData.username == null || getData.username.isEmpty()) {
+            return accName;
+        }
 
         try {
             connect = Database.connectDb();
-            String sql = "SELECT accountname FROM vkaccounts";
+            String sql = "SELECT accountname FROM vkaccounts WHERE admin_username = ?";
             prepare = connect.prepareStatement(sql);
+            prepare.setString(1, getData.username);
             result = prepare.executeQuery();
 
             while (result.next()) {
-                String name = result.getString("accountname");
-                accName.add(name);
+                accName.add(result.getString("accountname"));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return accName;
     }
 

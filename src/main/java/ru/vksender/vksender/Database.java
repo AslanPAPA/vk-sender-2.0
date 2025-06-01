@@ -13,7 +13,7 @@ public class Database {
             String password = "Papawanttodeneg";
 
             Connection connect = DriverManager.getConnection(url, user, password);
-            System.out.println("Подключение к базе данных успешно!");
+//            System.out.println("Подключение к базе данных успешно!");
             return connect;
 
         }catch(Exception e) {

@@ -9,10 +9,10 @@ public class vkAccountsData {
     private String image;
     private String firstName;
     private String lastName;
+    private String adminUsername;
 
 
-
-    public vkAccountsData(Integer id, String token, String accountName, String description, String image, String firstName, String lastName) {
+    public vkAccountsData(Integer id, String token, String accountName, String description, String image, String firstName, String lastName, String adminUsername) {
         this.id = id;
         this.token = token;
         this.accountName = accountName;
@@ -20,6 +20,7 @@ public class vkAccountsData {
         this.image = image;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.adminUsername = adminUsername;
 
     }
 
@@ -49,6 +50,10 @@ public class vkAccountsData {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getAdminUsername() {
+        return adminUsername;
     }
 
 
