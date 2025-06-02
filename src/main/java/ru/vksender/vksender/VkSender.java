@@ -17,21 +17,15 @@ public class VkSender extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            URL url = new File("/home/asl/IdeaProjects/vk-sender/src/main/resources/ru/vksender/vksender/LoginAndReg.fxml").toURI().toURL();
-            Parent root = FXMLLoader.load(url);
+            Parent root = FXMLLoader.load(getClass().getResource("/ru/vksender/vksender/LoginAndReg.fxml"));
             Scene scene = new Scene(root);
             primaryStage.initStyle(StageStyle.TRANSPARENT);
-//			String css = this.getClass().getResource("designLogin.css").toExternalForm();
-//			scene.getStylesheets().add(css);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
 
     public static void main(String[] args) {
         launch(args);

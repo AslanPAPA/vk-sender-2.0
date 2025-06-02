@@ -97,59 +97,45 @@ public class LoginAndRegController {
     public void signup() {
         String sql = "INSERT INTO admin (email,username,password) VALUES (?,?,?)";
 
-        connect = Database.connectDb();
+        try (Connection connect = Database.connectDb();
+             PreparedStatement prepare = connect.prepareStatement(sql);
+             PreparedStatement prepareCheckName = connect.prepareStatement(
+                     "SELECT username FROM admin WHERE username = ?")) {
 
-        Alert alert;
+            Alert alert;
 
-        try {
-            prepare = connect.prepareStatement(sql);
+            if (signup_email.getText().isEmpty() || signup_username.getText().isEmpty()
+                    || signup_password.getText().isEmpty()) {
+                showAlert(AlertType.ERROR, "Ошибка", "Пожалуйста, заполните все поля.");
+                return;
+            }
+
+            if (signup_password.getText().length() < 8) {
+                showAlert(AlertType.ERROR, "Ошибка", "Длина пароля должна быть не менее 8 символов!");
+                return;
+            }
+
+            if (!validEmail()) {
+                return;
+            }
+
+            prepareCheckName.setString(1, signup_username.getText());
+            try (ResultSet result = prepareCheckName.executeQuery()) {
+                if (result.next()) {
+                    showAlert(AlertType.ERROR, "ОШИБКА", "Логин " + signup_username.getText() + " уже существует!");
+                    return;
+                }
+            }
+
             prepare.setString(1, signup_email.getText());
             prepare.setString(2, signup_username.getText());
             prepare.setString(3, signup_password.getText());
+            prepare.executeUpdate();
 
-            if (signup_email.getText().isEmpty() || signup_username.getText().isEmpty()
-                || signup_password.getText().isEmpty()) {
-
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Ошибка");
-                alert.setHeaderText(null);
-                alert.setContentText("Пожалуйста, заполните все поля.");
-                alert.showAndWait();
-            } else if (signup_password.getText().length() < 8) {
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Ошибка");
-                alert.setHeaderText(null);
-                alert.setContentText("Длина пароля, должна быть не менее 8 символов!");
-                alert.showAndWait();
-            } else {
-                if (validEmail()) {
-                    String checkUserName = "SELECT username FROM admin WHERE username = ?";
-                    PreparedStatement prepareCheckName;
-                    prepareCheckName = connect.prepareStatement(checkUserName);
-                    prepareCheckName.setString(1, signup_username.getText());
-                    result = prepareCheckName.executeQuery();
-
-                    if (result.next()) {
-                        alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("ОШИБКА");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Логин " + signup_username.getText() + " уже существует!");
-                        alert.showAndWait();
-                    } else {
-                        prepare.execute();
-
-                        alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Информация");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Аккаунт успешно создан!");
-                        alert.showAndWait();
-
-                        signup_email.clear();
-                        signup_username.clear();
-                        signup_password.clear();
-                    }
-                }
-            }
+            showAlert(AlertType.INFORMATION, "Информация", "Аккаунт успешно создан!");
+            signup_email.clear();
+            signup_username.clear();
+            signup_password.clear();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,68 +144,58 @@ public class LoginAndRegController {
 
     public void signin() {
         String sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
-        connect = Database.connectDb();
 
-        if (connect == null) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText(null);
-            alert.setContentText("Не удалось подключиться к базе данных.");
-            alert.showAndWait();
-            return;
-        }
+        try (Connection connect = Database.connectDb();
+             PreparedStatement prepare = connect.prepareStatement(sql)) {
 
-        try {
-            prepare = connect.prepareStatement(sql);
+            if (connect == null) {
+                showAlert(AlertType.ERROR, "Ошибка", "Не удалось подключиться к базе данных.");
+                return;
+            }
+
+            if (signin_username.getText().isEmpty() || signin_password.getText().isEmpty()) {
+                showAlert(AlertType.ERROR, "Ошибка", "Пожалуйста, заполните все поля.");
+                return;
+            }
+
             prepare.setString(1, signin_username.getText());
             prepare.setString(2, signin_password.getText());
 
-            result = prepare.executeQuery();
-
-            Alert alert;
-
-            if (signin_username.getText().isEmpty() || signin_password.getText().isEmpty()) {
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Ошибка");
-                alert.setHeaderText(null);
-                alert.setContentText("Пожалуйста, заполните все поля.");
-                alert.showAndWait();
-                return;
-            } else {
+            try (ResultSet result = prepare.executeQuery()) {
                 if (result.next()) {
-
                     getData.username = signin_username.getText();
+                    if ("aslADMIN".equalsIgnoreCase(signin_username.getText())) {
+                        getData.isAdmin = true;
+                        showAlert(AlertType.INFORMATION, "Информация", "Вход выполнен как АДМИНИСТРАТОР!");
+                    } else {
+                        getData.isAdmin = false;
+                        showAlert(AlertType.INFORMATION, "Информация", "Успешный вход!");
+                    }
 
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Информация");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Успешный вход!");
-                    alert.showAndWait();
 
                     signin_loginBtn.getScene().getWindow().hide();
 
-                    URL url = new File("/home/asl/IdeaProjects/vk-sender/src/main/resources/ru/vksender/vksender/Dashboard.fxml").toURI().toURL();
-                    Parent root = FXMLLoader.load(url);
-
+                    Parent root = FXMLLoader.load(getClass().getResource("/ru/vksender/vksender/Dashboard.fxml"));
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
                     stage.initStyle(StageStyle.TRANSPARENT);
-
                     stage.setScene(scene);
                     stage.show();
-
                 } else {
-                    alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Ошибка");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Неправильный логин или пароль.");
-                    alert.showAndWait();
+                    showAlert(AlertType.ERROR, "Ошибка", "Неправильный логин или пароль.");
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public void switchForm(ActionEvent event) {
